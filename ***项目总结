@@ -1,0 +1,9 @@
+1.Qt中子窗口中想要调用父窗口的成员可以通过MainInfoDlg *ptr = (MainInfoDlg*)parentWidget();来获得父对象的指针，可以减少使用信号与槽的次数。
+父窗口和子窗口的头文件不能相互引用，要在子窗口的CPP文件中引用父窗口的头文件。
+
+2.QWidget作为主窗口时不能直接设置border-image，因为QWidget没有父对象，而QDialog和QMainWindow有父对象，所以用QDialog可以直接设置border-image。
+
+3.Qt使用信号和槽时如果带有自定义类型的参数，例如结构体和枚举。如果使用connect（&，&，&，&），则需要#include <QMetaType>，qRegisterMetaType<MyType>("MyType")来注册默认参数，
+如果使用connect(&,SIGNAL(),&,SLOT())，则不需要注册。
+
+4.Qt使用moveToThread添加多线程时，如果将父类的成员变量移入子线程中，则不能通过子类->函数的形式来调用子类函数，需要通过信号和槽，否则会提示cannot create children for a parent that is in a different thread.
