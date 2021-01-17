@@ -1,0 +1,18 @@
+问题：
+此label继承自QLabel，要实现的功能是将图片作为QPixmap加载为背景，并通过重写PaintEvent事件实现在图上画矩形框的功能。
+但发现重写paintEvent事件后，无法通过调用 label->setPixmap()的方法来加载图片。
+
+解决方法：
+查阅网络发现，如果要在重写paintEvent事件后调用QLabel的函数，需要在paintEvent函数体的第一行加上QLabel::paintEvent(pEvent);
+代码如下。
+
+
+void GPainterLabel::paintEvent(QPaintEvent *pEvent)
+{
+    QLabel::paintEvent(pEvent);
+    QPainter painter(this);
+    this->setPixmap(QPixmap(":/Tulips.jpg"));
+    painter.setPen(Qt::red);
+    painter.drawLine(0,0,100,100);
+ 
+}
